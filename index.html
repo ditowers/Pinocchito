@@ -265,6 +265,9 @@ body {
 </div>
 
 <script>
+// ============================================================
+// CONFIGURACIÓN
+// ============================================================
 var MESES = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
 
 var ejemplos = {
@@ -287,6 +290,9 @@ var ejemplos = {
 - [ ] 123 (4) COM"
 };
 
+// ============================================================
+// FUNCIONES
+// ============================================================
 function toggleRules() {
     var panel = document.getElementById('rulesPanel');
     if (panel.classList.contains('show')) {
@@ -366,17 +372,20 @@ function pinochitoProcess() {
     var totalDinero = dineroCamas + dineroComs;
     var numPersonas = 10;
 
+    // Lista organizada
     var listaHTML = '';
     for (var i = 0; i < unidades.length; i++) {
         listaHTML += '<div class="result-line">' + unidades[i].texto + '</div>';
     }
     document.getElementById('listaOrg').innerHTML = listaHTML;
 
+    // Resumen financiero
     document.getElementById('resumenFin').innerHTML = 
         '<div class="result-line">🛏️ Total camas: ' + totalCamas + ' × $20 = $' + dineroCamas + '</div>' +
         '<div class="result-line">🧹 Total áreas comunes: ' + totalComs + ' × $45 = $' + dineroComs + '</div>' +
         '<div class="total-line">💵 TOTAL TURNO: $' + totalDinero + '</div>';
 
+    // División
     document.getElementById('division').innerHTML = 
         '<div class="result-line">Personas: ' + numPersonas + '</div>' +
         '<div class="result-line">• Camas por persona: ' + (totalCamas/numPersonas).toFixed(1) + '</div>' +
@@ -385,6 +394,7 @@ function pinochitoProcess() {
 
     document.getElementById('resultado').classList.add('show');
 
+    // WhatsApp preview
     var waText = '🤖 *Pinochito dice:*\n\n📋 *LISTA ORGANIZADA*\n\n' + 
         unidades.map(function(u) { return u.texto; }).join('\n') + 
         '\n\n---\n\n💰 *RESUMEN FINANCIERO*\n\n' +
@@ -400,12 +410,27 @@ function pinochitoProcess() {
     document.getElementById('whatsappPreview').textContent = waText;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('btnEx1').addEventListener('click', function() { pinochitoLoad(1); });
-    document.getElementById('btnEx2').addEventListener('click', function() { pinochitoLoad(2); });
-    document.getElementById('btnProcess').addEventListener('click', pinochitoProcess);
-    document.getElementById('btnRules').addEventListener('click', toggleRules);
-});
+// ============================================================
+// EVENT LISTENERS - Funcionan en Chrome, Safari, Firefox
+// ============================================================
+function init() {
+    var btnEx1 = document.getElementById('btnEx1');
+    var btnEx2 = document.getElementById('btnEx2');
+    var btnProcess = document.getElementById('btnProcess');
+    var btnRules = document.getElementById('btnRules');
+
+    if (btnEx1) btnEx1.addEventListener('click', function() { pinochitoLoad(1); });
+    if (btnEx2) btnEx2.addEventListener('click', function() { pinochitoLoad(2); });
+    if (btnProcess) btnProcess.addEventListener('click', pinochitoProcess);
+    if (btnRules) btnRules.addEventListener('click', toggleRules);
+}
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
 </script>
 </body>
 </html>
