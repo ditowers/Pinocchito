@@ -8,22 +8,22 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f0f2f5;
+    background: #f5f5f5;
     padding: 20px;
-    color: #1c1e21;
+    color: #1a1a1a;
 }
 .container { max-width: 600px; margin: 0 auto; }
 .header {
-    background: linear-gradient(135deg, #00c853, #00b248);
+    background: #1a1a1a;
     color: white;
     padding: 30px 20px;
     border-radius: 20px;
     text-align: center;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0,200,83,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 .header h1 { font-size: 24px; margin-bottom: 8px; }
-.header p { font-size: 14px; opacity: 0.9; }
+.header p { font-size: 14px; opacity: 0.7; }
 .card {
     background: white;
     border-radius: 16px;
@@ -33,7 +33,7 @@ body {
 }
 .card h2 {
     font-size: 16px;
-    color: #00c853;
+    color: #1a1a1a;
     margin-bottom: 12px;
 }
 .input-area {
@@ -46,7 +46,7 @@ body {
     resize: vertical;
     font-family: inherit;
 }
-.input-area:focus { outline: none; border-color: #00c853; }
+.input-area:focus { outline: none; border-color: #1a1a1a; }
 .btn {
     width: 100%;
     background: #1a1a1a;
@@ -74,7 +74,7 @@ body {
 }
 .example-btn:hover { background: #333; }
 .result {
-    background: #f8f9fa;
+    background: #fafafa;
     border-radius: 12px;
     padding: 16px;
     margin-top: 16px;
@@ -97,7 +97,7 @@ body {
 .total-line {
     font-size: 18px;
     font-weight: 700;
-    color: #00c853;
+    color: #1a1a1a;
     padding: 10px 0;
 }
 .divider {
@@ -174,7 +174,7 @@ body {
 .rule-item:last-child { border-bottom: none; }
 .rule-icon { font-size: 20px; }
 .rule-text { flex: 1; }
-.rule-text strong { color: #00c853; }
+.rule-text strong { color: #1a1a1a; }
 .footer {
     text-align: center;
     padding: 20px;
@@ -203,10 +203,10 @@ body {
 111 (2) COM
 118 (2) COM"></textarea>
         <div style="margin-top:8px;">
-            <button class="example-btn" onclick="pinochitoLoad(1)">Ejemplo 1</button>
-            <button class="example-btn" onclick="pinochitoLoad(2)">Ejemplo 2</button>
+            <button class="example-btn" id="btnEx1">Ejemplo 1</button>
+            <button class="example-btn" id="btnEx2">Ejemplo 2</button>
         </div>
-        <button class="btn" onclick="pinochitoProcess()">⚡ Procesar Turno</button>
+        <button class="btn" id="btnProcess">⚡ Procesar Turno</button>
 
         <div class="result" id="resultado">
             <h3>📋 LISTA ORGANIZADA</h3>
@@ -230,7 +230,7 @@ body {
     </div>
 
     <div class="rules-toggle">
-        <button onclick="toggleRules()">ℹ️ Ver reglas del negocio</button>
+        <button id="btnRules">ℹ️ Ver reglas del negocio</button>
     </div>
     <div class="rules-panel" id="rulesPanel">
         <div class="rule-item">
@@ -289,7 +289,11 @@ var ejemplos = {
 
 function toggleRules() {
     var panel = document.getElementById('rulesPanel');
-    panel.classList.toggle('show');
+    if (panel.classList.contains('show')) {
+        panel.classList.remove('show');
+    } else {
+        panel.classList.add('show');
+    }
 }
 
 function esLineaDeFecha(linea) {
@@ -335,6 +339,9 @@ function clasificarUnidad(linea) {
 
 function pinochitoLoad(n) {
     document.getElementById('inputList').value = ejemplos[n];
+    setTimeout(function() {
+        pinochitoProcess();
+    }, 50);
 }
 
 function pinochitoProcess() {
@@ -392,6 +399,13 @@ function pinochitoProcess() {
 
     document.getElementById('whatsappPreview').textContent = waText;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('btnEx1').addEventListener('click', function() { pinochitoLoad(1); });
+    document.getElementById('btnEx2').addEventListener('click', function() { pinochitoLoad(2); });
+    document.getElementById('btnProcess').addEventListener('click', pinochitoProcess);
+    document.getElementById('btnRules').addEventListener('click', toggleRules);
+});
 </script>
 </body>
 </html>
